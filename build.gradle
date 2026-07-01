@@ -6,7 +6,7 @@ plugins {
 
 group = 'project.kjhjdh'
 version = '0.0.1-SNAPSHOT'
-description = 'ibid_back'
+description = 'ibid'
 
 java {
     toolchain {

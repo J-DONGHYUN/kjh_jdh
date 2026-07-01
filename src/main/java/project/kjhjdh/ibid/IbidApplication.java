@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class IbidBackApplication {
+public class IbidApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(IbidBackApplication.class, args);
+		SpringApplication.run(IbidApplication.class, args);
 	}
 
 }
