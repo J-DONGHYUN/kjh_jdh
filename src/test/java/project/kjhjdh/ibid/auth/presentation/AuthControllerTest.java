@@ -5,19 +5,11 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.FilterType;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import org.springframework.test.web.servlet.MockMvc;
 
 import io.restassured.http.ContentType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
@@ -26,30 +18,15 @@ import project.kjhjdh.ibid.auth.domain.TokenPair;
 import project.kjhjdh.ibid.auth.presentation.cookie.RefreshTokenCookieHandler;
 import project.kjhjdh.ibid.auth.presentation.dto.LoginRequest;
 import project.kjhjdh.ibid.auth.presentation.dto.SignupRequest;
-import project.kjhjdh.ibid.auth.presentation.interceptor.AuthenticationInterceptor;
-import project.kjhjdh.ibid.common.config.WebConfig;
 import project.kjhjdh.ibid.common.exception.BusinessException;
 import project.kjhjdh.ibid.common.exception.ErrorCode;
 import project.kjhjdh.ibid.common.exception.GlobalException;
+import project.kjhjdh.ibid.support.ControllerTestSupport;
 
-@ActiveProfiles("test")
-@Import(RefreshTokenCookieHandler.class)
-@WebMvcTest(controllers = AuthController.class,
-        excludeFilters = @ComponentScan.Filter(
-                type = FilterType.ASSIGNABLE_TYPE,
-                classes = {WebConfig.class, AuthenticationInterceptor.class}))
-class AuthControllerTest {
-
-    @Autowired
-    private MockMvc mockMvc;
+class AuthControllerTest extends ControllerTestSupport {
 
     @MockitoBean
     private AuthService authService;
-
-    @BeforeEach
-    void setUp() {
-        RestAssuredMockMvc.mockMvc(mockMvc);
-    }
 
     @DisplayName("회원가입에 성공하면 201과 userId를 응답한다")
     @Test
