@@ -1,0 +1,43 @@
+package project.kjhjdh.ibid.auth.presentation.resolver;
+
+import org.springframework.core.MethodParameter;
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.support.WebDataBinderFactory;
+import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.method.support.ModelAndViewContainer;
+
+import jakarta.servlet.http.HttpServletRequest;
+import project.kjhjdh.ibid.auth.domain.UserInfo;
+import project.kjhjdh.ibid.auth.presentation.interceptor.AuthenticationInterceptor;
+import project.kjhjdh.ibid.common.exception.ErrorCode;
+import project.kjhjdh.ibid.common.exception.GlobalException;
+
+/**
+ * {@link LoginUser}가 붙은 {@link UserInfo} 파라미터에
+ * {@link JwtAuthenticationFilter}가 저장한 인증 사용자 정보를 주입한다.
+ */
+@Component
+public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver {
+
+    @Override
+    public boolean supportsParameter(MethodParameter parameter) {
+        return parameter.hasParameterAnnotation(LoginUser.class)
+                && parameter.getParameterType().equals(UserInfo.class);
+    }
+
+    @Override
+    public Object resolveArgument(MethodParameter parameter,
+                                  ModelAndViewContainer mavContainer,
+                                  NativeWebRequest webRequest,
+                                  WebDataBinderFactory binderFactory) {
+        HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
+        Object userInfo = request.getAttribute(AuthenticationInterceptor.USER_INFO_ATTRIBUTE);
+
+        if (userInfo == null) {
+            throw new GlobalException(ErrorCode.UNAUTHORIZED);
+        }
+
+        return userInfo;
+    }
+}
