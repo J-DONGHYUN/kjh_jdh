@@ -13,10 +13,6 @@ import project.kjhjdh.ibid.auth.presentation.interceptor.AuthenticationIntercept
 import project.kjhjdh.ibid.common.exception.ErrorCode;
 import project.kjhjdh.ibid.common.exception.GlobalException;
 
-/**
- * {@link LoginUser}가 붙은 {@link UserInfo} 파라미터에
- * {@link JwtAuthenticationFilter}가 저장한 인증 사용자 정보를 주입한다.
- */
 @Component
 public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver {
 
