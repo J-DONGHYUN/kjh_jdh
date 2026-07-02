@@ -44,12 +44,6 @@ public class User {
         this.username = username;
     }
 
-    /**
-     * 이미 인코딩된 비밀번호로 사용자를 생성한다.
-     * 요청 DTO의 Bean Validation과 별개로, 도메인 불변식을 여기서 다시 보장한다.
-     * 이메일 형식은 {@link Email} 값 객체가, 유저이름 길이는 이 생성자가 검증한다.
-     * 원문 비밀번호 길이는 인코딩 전에 {@link #validateRawPassword(String)}로 검증한다.
-     */
     public static User create(String email, String encodedPassword, String username) {
         return new User(email, encodedPassword, username);
     }
